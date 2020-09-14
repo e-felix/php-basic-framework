@@ -1,8 +1,4 @@
-<?php
-/*
-    Base HTML file for every HTML files
-*/
-?>
+<!-- Base HTML file for every HTML files -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

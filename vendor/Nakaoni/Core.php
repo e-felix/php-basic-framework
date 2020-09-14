@@ -8,12 +8,14 @@ use App\Controller;
 final class Core {
 
     const PUBLIC_FOLDER_STRING_LENGTH = 17;
+    const APP_CONTROLLER_NAMESPACE = "App\Controller";
 
     protected $routes;
     protected $controller;
     protected $method;
     protected $view;
     protected $parameters;
+    protected $uri;
 
     public function __construct() {
         require_once __DIR__ . "/CoreHelpers.php";
@@ -27,10 +29,15 @@ final class Core {
             [$httpMethod, $uri] = explode("::", $route);
             [$class, $method] = explode("::", $class);
 
-            require_once ROOT_DIR . "/src/Controller/$class.php";
+            $filePath = ROOT_DIR . "/src/Controller/$class.php";
 
-            $this->controller = "App\Controller\\$class";
-            $this->method = $method;
+            if(\file_exists($filePath) && $requestURI === $uri) {
+                require $filePath;
+
+                $this->uri = $uri;
+                $this->controller = sprintf("%s\%s", self::APP_CONTROLLER_NAMESPACE, $class);
+                $this->method = $method;
+            }
         };
 
     }
@@ -42,5 +49,6 @@ final class Core {
         $method = $this->method;
         $render = $ret->$method();
 
+        header("location: $uri");
     }
 }
