@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Model\User;
+
 use Nakaoni\Controller\Controller;
 
 class HomepageController extends Controller {
@@ -11,8 +13,15 @@ class HomepageController extends Controller {
      */
     public function showHomepage() {
 
+        $john = new User();
+        $john->id = 1;
+
+        $jane = new User();
+        $jane->id = 2;
+
         return $this->render("homepage.html.php", [
-            "v" => "ok"
+            "john" => $john->id,
+            "jane" => $jane->id
         ]);
     }
 

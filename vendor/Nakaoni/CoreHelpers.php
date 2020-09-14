@@ -5,11 +5,18 @@
  */
 function dump(...$parameters) {
     foreach ($parameters as $parameter) {
-
         echo "<pre>";
         var_dump($parameter);
         echo "</pre>";
     }
+}
+
+/**
+ * Does a pre var_dump and then kill the process
+ */
+function dd(...$parameters) {
+    dump(...$parameters);
+    die();
 }
 
 /**

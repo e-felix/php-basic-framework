@@ -10,5 +10,6 @@
 */
 
 $routes = [
-    "GET::/" => "HomepageController::showHomepage"
+    "GET::/" => "HomepageController::showHomepage",
+    "GET::/users" => "UserController::showUsers"
 ];

@@ -3,8 +3,12 @@
 final class Autoload {
 
     private const FRAMEWORK_NAME = "Nakaoni";
-    private const KERNEL_NAME = "Core";
-    private const CONFIGURATION = "Config";
+    private const APP_NAME = "App";
+    private const APP_MODEL = "Model";
+
+    private static $pattern = ["\\", self::APP_NAME . "/", "//"];
+
+    private static $replacement = ["/", "", "/"];
 
     public static function includeClass($className) {
         $namespaceNames = explode("\\", $className);
@@ -15,16 +19,14 @@ final class Autoload {
             require __DIR__. "/$classPath.php";
         }
 
-        if($namespaceNames[0] === self::CONFIGURATION) {
-            $classPath = str_replace(
-                "Config",
-                "config",
-                str_replace("\\", "/", $className)
-            );
+        if(
+            $namespaceNames[0] === self::APP_NAME &&
+            $namespaceNames[1] === self::APP_MODEL
+        ) {
+            $classPath = str_replace(self::$pattern, self::$replacement, $className);
 
-            require __DIR__. "/../$classPath.php";
+            require __DIR__. "/../src/$classPath.php";
         }
-
 
     }
 }
